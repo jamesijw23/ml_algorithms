@@ -10,3 +10,9 @@ v2 = c(4,2,3)
 
 euclideanDistance(v1,v2,2)
 absoluteDistance(v1,v2,2)
+
+
+
+
+## Test get Neighbors function
+d = getNeighbors(train_df,test_df[1,],3, type_distance="euclid")
