@@ -39,6 +39,7 @@ split_df = function(df,split){
 ## Output: Square root of distance
 ## Purpose: Ability to find euclidean distance between
 ## two vectors
+## Improvements: Do not use for loop
 ##--------------------------------------
 euclideanDistance = function(instance1, instance2, length){
   distance = 0
