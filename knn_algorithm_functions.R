@@ -51,12 +51,47 @@ euclideanDistance = function(instance1, instance2, length){
 
 
 ##--------------------------------------
-## Name:
+## Name: abosluteDistance
 ## Input: 
-## Output:
-## Purpose:
+## 1) instance1 --> 1st vector of data
+## 2) instance1 --> 2nd vector of data
+## 3) length --> vector length
+## Output: absolute of distance
+## Purpose: Ability to find absolute distance between
+## two vectors
+## Improvements: Do not use for loop
+##--------------------------------------
+absoluteDistance = function(instance1, instance2, length){
+  distance = 0
+  for(i in 1:length){
+    distance = distance + abs(instance1[i] - instance2[i])
+  }
+  return(distance)
+}
+## NOTE: More distance can be found
+## https://numerics.mathdotnet.com/distance.html
+
+
+##--------------------------------------
+## Name: getNeighbors
+## Input: 
+## 1) trainingSet --> training df
+## 2) testInstance --> row of test df
+## 3) k --> number of neighbors
+## 4) type_distance --> euclidean or Mahattan
+## Output: Labels of training df that has the shortest 
+## distance between test row
+## Purpose: To be able to find the label of shortest distance
+## of test instance
 ##--------------------------------------  
-getNeighbors(trainingSet, testInstance, k):
+getNeighbors= function(trainingSet, 
+                       testInstance, 
+                       k, 
+                       type_distance){
+  
+  
+  
+}
 
   
 ##--------------------------------------
