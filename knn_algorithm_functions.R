@@ -46,7 +46,7 @@ euclideanDistance = function(instance1, instance2, length){
   for(i in 1:length){
     distance = distance + (instance1[i] - instance2[i])^2
   }
-    return(sqrt(distance))
+  return(sqrt(distance))
 }
 
 
@@ -78,35 +78,60 @@ absoluteDistance = function(instance1, instance2, length){
 ## 1) trainingSet --> training df
 ## 2) testInstance --> row of test df
 ## 3) k --> number of neighbors
-## 4) type_distance --> euclidean or Mahattan
+## 4) type_distance --> "euclid" or "absolute"
 ## Output: Labels of training df that has the shortest 
 ## distance between test row
 ## Purpose: To be able to find the label of shortest distance
 ## of test instance
+## Improvements:  no for loops in general
 ##--------------------------------------  
-getNeighbors= function(trainingSet, 
+getNeighbors = function(trainingSet, 
                        testInstance, 
                        k, 
-                       type_distance){
+                       type_distance="euclid"){
+  ## State parameters for getting Neighbors
+  distances = vector()
+  len_inst = length(testInstance)-1
+  
+  ## Find all distances from training set to 1 instance of test (wow)
+  if(type_distance == "euclid"){
+    for(i in 1:nrow(trainingSet)){
+      dist = euclideanDistance(testInstance, trainingSet[i,], len_inst)
+      distances =rbind(distances,data.frame(trainingSet[i,], dist))
+    }
+  } else if (type_distance == "absolute"){
+    for(i in 1:nrow(trainingSet)){
+      dist = absoluteDistance(testInstance, trainingSet[i,], len_inst)
+      distances =rbind(distances,data.frame(trainingSet[i,],dist))
+    }
+  }
+  colnames(distances)[ncol(distances)] = 'distance'
+  distances = distances %>% arrange(distance)
   
   
-  
+  ## Obtain k neighbors  
+  neighbors = distances[1:k,]
+
+  return(neighbors)
 }
 
-  
+
 ##--------------------------------------
 ## Name:
 ## Input: 
 ## Output:
 ## Purpose:
+## Improvements:
 ##--------------------------------------  
 getResponse(neighbors):
-
   
-##--------------------------------------
+  
+  ##--------------------------------------
 ## Name:
 ## Input: 
 ## Output:
 ## Purpose:
+## Improvements:
 ##--------------------------------------  
 getAccuracy(testSet, predictions):
+  
