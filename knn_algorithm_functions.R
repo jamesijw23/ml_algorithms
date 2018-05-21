@@ -42,6 +42,8 @@ split_df = function(df,split){
 ## two vectors
 ## Improvements: 
 ## a) Do not use for loop
+## b) Create an algorithm that allows you to create a distance 
+## based on the feature
 ##--------------------------------------
 euclideanDistance = function(instance1, instance2, length){
   distance = 0
@@ -96,17 +98,20 @@ getNeighbors = function(trainingSet,
                        type_distance="euclid"){
   ## State parameters for getting Neighbors
   distances = vector()
-  len_inst = length(testInstance)-1
+   num_features = ncol(trainingSet)-1
   
-  ## Find all distances from training set to 1 instance of test (wow)
-  if(type_distance == "euclid"){
+  ## Find all distances from training set to 1 instance of test 
+   
+  if(type_distance == "euclid"){ ## Using Euclidean Distance
     for(i in 1:nrow(trainingSet)){
-      dist = euclideanDistance(testInstance, trainingSet[i,], len_inst)
+      dist = euclideanDistance(testInstance, trainingSet[i,-1],
+                               num_features)
       distances =rbind(distances,data.frame(trainingSet[i,], dist))
     }
-  } else if (type_distance == "absolute"){
+  } else if (type_distance == "absolute"){ ## Using Absolute Distance
     for(i in 1:nrow(trainingSet)){
-      dist = absoluteDistance(testInstance, trainingSet[i,], len_inst)
+      dist = absoluteDistance(testInstance, trainingSet[i,-1],
+                              num_features)
       distances =rbind(distances,data.frame(trainingSet[i,],dist))
     }
   }
@@ -127,18 +132,20 @@ getNeighbors = function(trainingSet,
 ## Output: Classification of row from test
 ## Purpose: To be able to classify data based on nearest neighbors
 ## Improvements: 
-## a) Use a different data structure to store class votes
+## a) Determine an better algorithm for ties, could be random
 ##--------------------------------------  
 getResponse = function(neighbors){
-  classVotes = vector()
-  for(i in 1:nrow(neighbors)){
-    response = neighbors[x][-1]
-    if response in classVotes:
-      classVotes[response] += 1
-      else:
-        classVotes[response] = 1
-  }
+  ## Creates a table based on response variable 
+  ## Make this table into a df
+  list_levels = data.frame(table(neighbors[,1]))  %>%
+    ## Arranges df based on Freq of the levels response var
+    arrange(desc(Freq)) %>%
+    ## Selects only variable of interest  
+    select(Var1)
+  ## Select first maximum
+  result = as.character(list_levels[1,1])
   
+  return(result)
 }
   
   
@@ -149,7 +156,7 @@ getResponse = function(neighbors){
 ## Purpose:
 ## Improvements:
 ##--------------------------------------  
-getAccuracy(testSet, predictions):
+getAccuracy(testSet, predictions)
   
   
   
@@ -162,5 +169,12 @@ getAccuracy(testSet, predictions):
 ## Improvements:
 ## NOTE:
 ## a) The response variable is always first
+## b) Test df will not have a response, if it does it should be
+## removed for this version of KNN
+## Parameters to Change:
+## a) k: number of neighbors
+## b) Type of Distance
+## c) Amount of Test/Train data
+## d) ** Handle of Ties
 ##--------------------------------------
   
