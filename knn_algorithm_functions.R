@@ -146,14 +146,22 @@ getResponse = function(neighbors){
 
 ##--------------------------------------
 ## Name: getAccuracy
-## Input: Test df and predictions
-## Output: measures MSE
-## Purpose:
+## Input: 
+  ## a) True Responses
+  ## b) Estimates
+## Output: 
+  ## Percent Error
+## Purpose: Be able to state how well the model did at predicting
 ## Improvements:
+  ## a) Other Metrics for classification
+  ## a) Determine what kind of response 
+  ## b) Based type of response, do a type of measurement
+  ## d) Plot Metrics
 ##--------------------------------------  
-getAccuracy(testSet, predictions){
-  
-  
+getAccuracy = function(est_values, true_values){
+  ## Error Percent
+  results = sum(est_values != true_values)/length(true_values)
+  return(results)
 }
 
 
@@ -183,19 +191,26 @@ getAccuracy(testSet, predictions){
 ## d) ** Handle of Ties, change choice based on MSE after done
 ##--------------------------------------
 emans_knn = function(train_df, test_df, k, distance='euclid'){
-  
-  predictions_vector= vector()
-  
   ## Determine if the the test df has reponse
   if(ncol(train_df) == ncol(test_df)){
+    
+    est_vector= vector()
+    
+    
     test_df = test_df[,-1]
+    true_values = test_df[,1]
+    
+    
     for (i in 1:nrow(test_df)){
       neighbors = getNeighbors(train_df,test_df[i,],k, type_distance=distance)
       result = getResponse(neighbors)
-      predictions_vector = rbind(predictions_vector,result)
+      est_vector = rbind(est_vector,result)
     } 
-    ## CALL Accuracy Function
-     return(list(predictions = predictions_vector))
+    
+    p_e = getAccuracy(as.vector(est_vector), as.vector(true_values))
+    
+    
+     return(list(predictions = predictions_vector, percent_error = p_e ))
   } else {
     for (i in 1:nrow(test_df)){
       neighbors = getNeighbors(train_df,test_df[i,],k, type_distance=distance)
