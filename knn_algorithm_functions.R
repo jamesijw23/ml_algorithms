@@ -2,7 +2,7 @@ library(dplyr)
 ##--------------------------------------
 ## Functions
 ##--------------------------------------
- 
+
 ##--------------------------------------
 ## Dependencies:
 ## a. dplyr: df manipulation
@@ -93,15 +93,14 @@ absoluteDistance = function(instance1, instance2, length){
 ## b) Store distances into a df
 ##--------------------------------------  
 getNeighbors = function(trainingSet, 
-                       testInstance, 
-                       k, 
-                       type_distance="euclid"){
+                        testInstance, 
+                        k, 
+                        type_distance="euclid"){
   ## State parameters for getting Neighbors
   distances = vector()
-   num_features = ncol(trainingSet)-1
+  num_features = ncol(trainingSet)-1
   
   ## Find all distances from training set to 1 instance of test 
-   
   if(type_distance == "euclid"){ ## Using Euclidean Distance
     for(i in 1:nrow(trainingSet)){
       dist = euclideanDistance(testInstance, trainingSet[i,-1],
@@ -117,11 +116,8 @@ getNeighbors = function(trainingSet,
   }
   colnames(distances)[ncol(distances)] = 'distance'
   distances = distances %>% arrange(distance)
-  
-  
   ## Obtain k neighbors  
   neighbors = distances[1:k,]
-
   return(neighbors)
 }
 
@@ -144,37 +140,62 @@ getResponse = function(neighbors){
     select(Var1)
   ## Select first maximum
   result = as.character(list_levels[1,1])
-  
   return(result)
 }
-  
-  
+
+
 ##--------------------------------------
-## Name:
-## Input: 
-## Output:
+## Name: getAccuracy
+## Input: Test df and predictions
+## Output: measures MSE
 ## Purpose:
 ## Improvements:
 ##--------------------------------------  
-getAccuracy(testSet, predictions)
+getAccuracy(testSet, predictions){
   
   
-  
-  
+}
+
+
+
+
 ##--------------------------------------
 ## Name: emans_knn
 ## Input: 
+## a) train_df --> training df
+## b) test_df --> testing df
+## c) k --> number of neighbors
+## d) distance --> type of distance
 ## Output:
 ## Purpose:
 ## Improvements:
+## a) No For Loops
 ## NOTE:
 ## a) The response variable is always first
-## b) Test df will not have a response, if it does it should be
+## b1) Test df will not have a response, if it does it should be
 ## removed for this version of KNN
+## b2) If test df has the same dimensions as train getAccuracy will be
+## used
 ## Parameters to Change:
 ## a) k: number of neighbors
 ## b) Type of Distance
 ## c) Amount of Test/Train data
-## d) ** Handle of Ties
+## d) ** Handle of Ties, change choice based on MSE after done
 ##--------------------------------------
+emans_knn = function(train_df, test_df, k, distance){
+  predictions= vector()
   
+  if(colnames(train_df) == colnames(test_df)){
+    
+    test_df = test_df[,-1]
+    for (i in 1:nrow(test_df)){
+      
+      neighbors = getNeighbors(train_df,test_df[10,],4, type_distance="euclid")
+      result = getResponse(neighbors)
+      predictions.append(result)
+    }
+    print('> predicted=' + repr(result) + ', actual=' + repr(testSet[x][-1]))
+    ## 
+  }
+  return()
+}
