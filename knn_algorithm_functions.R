@@ -2,7 +2,7 @@ library(dplyr)
 ##--------------------------------------
 ## Functions
 ##--------------------------------------
-
+ 
 ##--------------------------------------
 ## Dependencies:
 ## a. dplyr: df manipulation
@@ -15,7 +15,8 @@ library(dplyr)
 ## Output: A list that contains train and test dfs
 ## Purpose: Split the df into a training and test dfs for
 ## validation purposes
-## Improvements: Not have to create & delete tmp row_num col
+## Improvements: 
+## a) Not have to create & delete tmp row_num col
 ##--------------------------------------
 split_df = function(df,split){
   n_df = nrow(df)
@@ -39,7 +40,8 @@ split_df = function(df,split){
 ## Output: Square root of distance
 ## Purpose: Ability to find euclidean distance between
 ## two vectors
-## Improvements: Do not use for loop
+## Improvements: 
+## a) Do not use for loop
 ##--------------------------------------
 euclideanDistance = function(instance1, instance2, length){
   distance = 0
@@ -59,7 +61,8 @@ euclideanDistance = function(instance1, instance2, length){
 ## Output: absolute of distance
 ## Purpose: Ability to find absolute distance between
 ## two vectors
-## Improvements: Do not use for loop
+## Improvements: 
+## a) Do not use for loop
 ##--------------------------------------
 absoluteDistance = function(instance1, instance2, length){
   distance = 0
@@ -83,7 +86,9 @@ absoluteDistance = function(instance1, instance2, length){
 ## distance between test row
 ## Purpose: To be able to find the label of shortest distance
 ## of test instance
-## Improvements:  no for loops in general
+## Improvements:  
+## a) No for loops in general
+## b) Store distances into a df
 ##--------------------------------------  
 getNeighbors = function(trainingSet, 
                        testInstance, 
@@ -117,16 +122,26 @@ getNeighbors = function(trainingSet,
 
 
 ##--------------------------------------
-## Name:
-## Input: 
-## Output:
-## Purpose:
-## Improvements:
+## Name: getResponse
+## Input: Data of the neighbors
+## Output: Classification of row from test
+## Purpose: To be able to classify data based on nearest neighbors
+## Improvements: 
+## a) Use a different data structure to store class votes
 ##--------------------------------------  
-getResponse(neighbors):
+getResponse = function(neighbors){
+  classVotes = vector()
+  for x in range(len(neighbors)):
+    response = neighbors[x][-1]
+    if response in classVotes:
+      classVotes[response] += 1
+      else:
+        classVotes[response] = 1
+  
+}
   
   
-  ##--------------------------------------
+##--------------------------------------
 ## Name:
 ## Input: 
 ## Output:
