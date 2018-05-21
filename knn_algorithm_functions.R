@@ -147,16 +147,16 @@ getResponse = function(neighbors){
 ##--------------------------------------
 ## Name: getAccuracy
 ## Input: 
-  ## a) True Responses
-  ## b) Estimates
+## a) True Responses
+## b) Estimates
 ## Output: 
-  ## Percent Error
+## Percent Error
 ## Purpose: Be able to state how well the model did at predicting
 ## Improvements:
-  ## a) Other Metrics for classification
-  ## a) Determine what kind of response 
-  ## b) Based type of response, do a type of measurement
-  ## d) Plot Metrics
+## a) Other Metrics for classification
+## a) Determine what kind of response 
+## b) Based type of response, do a type of measurement
+## d) Plot Metrics
 ##--------------------------------------  
 getAccuracy = function(est_values, true_values){
   ## Error Percent
@@ -191,35 +191,38 @@ getAccuracy = function(est_values, true_values){
 ## d) ** Handle of Ties, change choice based on MSE after done
 ##--------------------------------------
 emans_knn = function(train_df, test_df, k, distance='euclid'){
+  ## Determine estimated responses
+    est_vector= vector()
+  
   ## Determine if the the test df has reponse
   if(ncol(train_df) == ncol(test_df)){
     
-    est_vector= vector()
-    
-    
-    test_df = test_df[,-1]
+    ## Test df and true response values
     true_values = test_df[,1]
+    test_df = test_df[,-1]
     
     
+   
     for (i in 1:nrow(test_df)){
       neighbors = getNeighbors(train_df,test_df[i,],k, type_distance=distance)
       result = getResponse(neighbors)
       est_vector = rbind(est_vector,result)
     } 
-    
+    ## Calculate accuracy of estimation
     p_e = getAccuracy(as.vector(est_vector), as.vector(true_values))
     
     
-     return(list(predictions = predictions_vector, percent_error = p_e ))
+    return(list(predictions = est_vector, percent_error = p_e ))
   } else {
+   
     for (i in 1:nrow(test_df)){
       neighbors = getNeighbors(train_df,test_df[i,],k, type_distance=distance)
       result = getResponse(neighbors)
-      predictions_vector = rbind(predictions_vector,result)
+      est_vector= rbind(est_vector,result)
     } 
-    return(list(predictions = predictions_vector))
+    return(list(predictions = est_vector))
   }
 }
 
 
-
+ 
