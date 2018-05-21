@@ -1,7 +1,12 @@
+## Makes Response Variable first column in df (in this case!!!)
+iris_mod = iris %>% select(Species,Sepal.Length,
+                           Sepal.Width,Petal.Length,
+                           Petal.Width )
+
 ## Testing Split Function
-s_df = split_df(iris,0.1)
-test_df = s_df$test_df %>% select(-Species)
-train_df = s_df$train_df %>% select(-Species)
+s_df = split_df(iris_mod,0.1)
+test_df = s_df$test_df  
+train_df = s_df$train_df 
 
 
 ## Test of Distance Functions
@@ -12,7 +17,11 @@ euclideanDistance(v1,v2,2)
 absoluteDistance(v1,v2,2)
 
 
-
-
 ## Test get Neighbors function
-d = getNeighbors(train_df,test_df[1,],3, type_distance="euclid")
+d = getNeighbors(train_df,test_df[10,],4, type_distance="euclid")
+
+## Test get Response Function
+r = getResponse(d)
+
+## Test main KNN function
+p = emans_knn(train_df,test_df,1)
