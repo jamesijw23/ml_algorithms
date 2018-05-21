@@ -212,7 +212,7 @@ emans_knn = function(train_df, test_df, k, distance='euclid'){
     p_e = getAccuracy(as.vector(est_vector), as.vector(true_values))
     
     
-    return(list(predictions = est_vector, percent_error = p_e ))
+    return(list(predictions = est_vector, percent_error = p_e, type_distance = distance ))
   } else {
    
     for (i in 1:nrow(test_df)){
