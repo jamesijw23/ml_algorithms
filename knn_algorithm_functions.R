@@ -182,20 +182,29 @@ getAccuracy(testSet, predictions){
 ## c) Amount of Test/Train data
 ## d) ** Handle of Ties, change choice based on MSE after done
 ##--------------------------------------
-emans_knn = function(train_df, test_df, k, distance){
-  predictions= vector()
+emans_knn = function(train_df, test_df, k, distance='euclid'){
   
-  if(colnames(train_df) == colnames(test_df)){
-    
+  predictions_vector= vector()
+  
+  ## Determine if the the test df has reponse
+  if(ncol(train_df) == ncol(test_df)){
     test_df = test_df[,-1]
     for (i in 1:nrow(test_df)){
-      
-      neighbors = getNeighbors(train_df,test_df[10,],4, type_distance="euclid")
+      neighbors = getNeighbors(train_df,test_df[i,],k, type_distance=distance)
       result = getResponse(neighbors)
-      predictions.append(result)
-    }
-    print('> predicted=' + repr(result) + ', actual=' + repr(testSet[x][-1]))
-    ## 
+      predictions_vector = rbind(predictions_vector,result)
+    } 
+    ## CALL Accuracy Function
+     return(list(predictions = predictions_vector))
+  } else {
+    for (i in 1:nrow(test_df)){
+      neighbors = getNeighbors(train_df,test_df[i,],k, type_distance=distance)
+      result = getResponse(neighbors)
+      predictions_vector = rbind(predictions_vector,result)
+    } 
+    return(list(predictions = predictions_vector))
   }
-  return()
 }
+
+
+
