@@ -131,12 +131,13 @@ getNeighbors = function(trainingSet,
 ##--------------------------------------  
 getResponse = function(neighbors){
   classVotes = vector()
-  for x in range(len(neighbors)):
+  for(i in 1:nrow(neighbors)){
     response = neighbors[x][-1]
     if response in classVotes:
       classVotes[response] += 1
       else:
         classVotes[response] = 1
+  }
   
 }
   
@@ -149,4 +150,17 @@ getResponse = function(neighbors){
 ## Improvements:
 ##--------------------------------------  
 getAccuracy(testSet, predictions):
+  
+  
+  
+  
+##--------------------------------------
+## Name: emans_knn
+## Input: 
+## Output:
+## Purpose:
+## Improvements:
+## NOTE:
+## a) The response variable is always first
+##--------------------------------------
   
