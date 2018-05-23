@@ -22,6 +22,18 @@ arma::mat repbyrow(arma::vec v1,int num_col){
 }
 
 
+
+
+//-----------------------------------
+// Name: euclidean_dist_matrix
+// Input:
+// a) mat1 --> matrix of data
+// b) x1 --> vector
+// Output: Euclidean distance between vector and each row vector in matrix
+// Purpose: Euclidean Distance per Matrix
+// Improvements:  
+//
+//-----------------------------------
 // [[Rcpp::export]]
 arma::colvec euclidean_dist_matrix(arma::mat mat1,arma::vec v1) {
   int num_rows = mat1.n_rows;
