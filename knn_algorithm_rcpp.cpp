@@ -23,11 +23,18 @@ arma::mat repbyrow(arma::vec v1,int num_col){
 
 
 // [[Rcpp::export]]
-arma::mat euclidean_dist_matrix(arma::mat mat1,arma::vec v1) {
+arma::colvec euclidean_dist_matrix(arma::mat mat1,arma::vec v1) {
   int num_rows = mat1.n_rows;
   arma::mat mat2 = repbyrow(v1,num_rows);
-  return pow(mat1 - mat2,2);
+  arma::colvec sqrt_vec = sqrt(sum(pow(mat1 - mat2,2),1));
+  return sqrt_vec;
 }
 
-
+// [[Rcpp::export]]
+arma::colvec absolute_dist_matrix(arma::mat mat1,arma::vec v1) {
+  int num_rows = mat1.n_rows;
+  arma::mat mat2 = repbyrow(v1,num_rows);
+  arma::colvec abs_vec = sum(abs(mat1 - mat2),1);
+  return abs_vec;
+}
 
