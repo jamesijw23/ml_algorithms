@@ -1,3 +1,4 @@
+library(dplyr)
 ## Makes Response Variable first column in df (in this case!!!)
 iris_mod = iris %>% select(Species,Sepal.Length,
                            Sepal.Width,Petal.Length,
@@ -24,4 +25,36 @@ d = getNeighbors(train_df,test_df[10,],4, type_distance="euclid")
 r = getResponse(d)
 
 ## Test main KNN function
-p = emans_knn(train_df,test_df,1)
+p = emans_knn(train_df,test_df,1,"absolute")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
