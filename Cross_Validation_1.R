@@ -33,8 +33,7 @@ cross_validation = function(df,type_cv = 1,p_test=0.2,method = "KNN"){
     train_df = as.data.frame(partitions$part0)
     test_df  = as.data.frame(partitions$part1)
     
-    
-    
+  
     ## b) Implement ML Algorithm
     
     
@@ -83,7 +82,16 @@ cross_validation = function(df,type_cv = 1,p_test=0.2,method = "KNN"){
     ## b) Implement ML Algorithm
     
     ## train and test:
-    train_df_wo0, p0
+    ## train_df_wo0, p0
+    ## train_df_wo1, p1
+    ## train_df_wo2, p2
+    ## train_df_wo3, p3
+    ## train_df_wo4, p4
+    ## train_df_wo5, p5
+    ## train_df_wo6, p6
+    ## train_df_wo7, p7
+    ## train_df_wo8, p8
+    ## train_df_wo9, p9
     
     
     
