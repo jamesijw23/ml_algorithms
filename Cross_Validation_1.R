@@ -22,6 +22,22 @@ library(modelr)
 ## c) Plot Metric for each sample removed
 
 
+
+##--------------------------------------
+## Name: cross_validation
+## Input: 
+  ## 1) df --> dataframe
+  ## 2) type_cv --> type of cv 1: 2-fold 2: 10-fold 
+  ## 3) p_test --> percent of df to be the test
+  ## 4) method: machine learning technique on data
+  ## 5)   
+  ## 6) 
+## Output: metrics and plots
+## Purpose: To validate model
+## Improvements: 
+## a) 
+##--------------------------------------
+
 cross_validation = function(df,type_cv = 1,p_test=0.2,method = "KNN"){
   
   ##### Type 1: Divide the Data into 2 sets (80/20)
