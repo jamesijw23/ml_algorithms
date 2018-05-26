@@ -16,7 +16,7 @@
 ## Improvements: 
 ## a)
 ##--------------------------------------
-metrics = function(true_vector,esti_vector){
+metrics_classification = function(true_vector,esti_vector){
   
   ## Classification Accuracy
   ca_error 
