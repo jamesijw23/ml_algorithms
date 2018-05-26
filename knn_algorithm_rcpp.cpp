@@ -232,7 +232,7 @@ knn_cpp = function(train_df, test_df, k, distance='euclid'){
       result = getResponse(neighbors)
       est_vector= rbind(est_vector,result)
     } 
-    return(list(predictions = est_vector))
+    return(list(predictions = est_vector,type_distance = distance))
   }
 }
 
