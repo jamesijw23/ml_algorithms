@@ -5,6 +5,7 @@
 ## 2) esti_vector --> esitmated classifications
 ## Output: 
   ## a) Classification Accuracy
+  ## s) Precision/Recall
   ## b) Confusion Matrix
   ## c) Logaritmic Loss
   ## d) Area Under Curve
@@ -18,8 +19,15 @@
 ##--------------------------------------
 metrics_classification = function(true_vector,esti_vector){
   
-  ## Classification Accuracy
-  ca_error 
+  ## Classification Accuracy / Precision
+  ca_error = sum(true_vector == esti_vector)/length(true_vector)
+  
+  
+
+  
+  
+  ## Recall
+  re_error = diag(table(tr,es))/table(tr)
   ## Logaritmic Loss
   ll_error
   ## Confusion Matrix
@@ -36,7 +44,8 @@ metrics_classification = function(true_vector,esti_vector){
   ms_error
   
   results = list(## Classification Accuracy
-    ca_error=ca_error,ll_error=ll_error,cm_error=cm_error,auc_error=auc_error,
+    re_error = re_error, pr_error = pr_error,ca_error=ca_error,
+    ll_error=ll_error,cm_error=cm_error,auc_error=auc_error,
     f1_error=f1_error,f2_error=f2_error,ma_error=ma_error,ms_error=ms_error)
   return(results)
 }
