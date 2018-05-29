@@ -76,10 +76,25 @@ cross_validation_KNN = function(df,type_cv = 1,p_test=0.2,KN = 3){
     ## c) Find Metrics
     tr = test_df[,1]
     es = knn_model$predictions
-    test_metrics = metrics(tr,es)
-    return(test_metrics)
+    m = metrics(tr,es)
+   
     
     ## d) Find Plots
+    long_m = gather(m,metrics_name,metric_value,TPR_metric:MKd_metric)
+    few_metric = long_m %>% 
+      filter(metrics_name == "TPR_metric" |
+               metrics_name == "TNR_metric" |
+               metrics_name == "ACC_metric" | 
+               metrics_name == "PPV_metric")
+    ggplot(few_metric,aes(x=metrics_name,y=metric_value)) + 
+      ggtitle("Recovery of Each Level") +
+      geom_point()+
+      xlab("Metrics Names") +
+      ylab("Measurements") +
+      facet_grid(~Levels_name) + 
+      theme_bw() +
+      theme(plot.title = element_text(hjust = 0.5)) 
+    
     
     
     
