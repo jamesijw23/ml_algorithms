@@ -209,22 +209,15 @@ knn_cpp = function(train_df, test_df, k, distance='euclid'){
 ## Determine if the the test df has reponse
   if(ncol(train_df) == ncol(test_df)){
     
-## Test df and true response values
-    true_values = test_df[,1]
+   ## Test df and true response values
     test_df = test_df[,-1]
-    
-    
     
     for (i in 1:nrow(test_df)){
       neighbors = getNeighbors(train_df,test_df[i,],k, type_distance=distance)
       result = getResponse(neighbors)
       est_vector = rbind(est_vector,result)
     } 
-## Calculate accuracy of estimation
-    p_e = getAccuracy(as.vector(est_vector), as.vector(true_values))
-      
-      
-      return(list(predictions = est_vector, percent_error = p_e, type_distance = distance ))
+      return(list(predictions = est_vector, type_distance = distance ))
   } else {
     
     for (i in 1:nrow(test_df)){
