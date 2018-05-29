@@ -17,3 +17,6 @@ es = model1$predictions
 
 m = metrics(tr,es)
 long_m = gather(m,metrics_name,metric_value,TPR_metric:MKd_metric)
+
+
+cross_validation_KNN(df,type_cv = 1,p_test=0.2,KN = 3)
