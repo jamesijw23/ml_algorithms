@@ -3,7 +3,7 @@
   
   ## 1) Logaritmic Loss: Another Function need probability matrix for each class
   ## 2) AUC   -->  http://rpubs.com/prcuny/161764 
-  ## 3) F2 Score --> Wiki
+  
 
 
 
