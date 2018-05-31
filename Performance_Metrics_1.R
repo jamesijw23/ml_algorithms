@@ -77,7 +77,7 @@ metrics_function = function(matrixM){
   ## 10) F1 Score
   F1s_metric = 2 *((PPV_metric*TPR_metric) / (PPV_metric + TPR_metric))
   ## 11) F2 Score
-  F2s_metric = 1
+  F2s_metric =  5 *((PPV_metric*TPR_metric) / (4*PPV_metric + TPR_metric))
   
   ## 12) Matthews Correlation Cofficient
   MCC_metric = ((TP_cond * TN_cond) - (FP_cond * FN_cond)) / 
