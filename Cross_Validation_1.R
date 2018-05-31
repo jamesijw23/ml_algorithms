@@ -1,5 +1,6 @@
 library(readr)
 library(modelr)
+library(ggplot2)
 
 
 ##--------------------------------------
@@ -86,7 +87,7 @@ cross_validation_KNN = function(df,type_cv = 1,p_test=0.2,KN = 3){
                metrics_name == "TNR_metric" |
                metrics_name == "ACC_metric" | 
                metrics_name == "PPV_metric")
-    ggplot(few_metric,aes(x=metrics_name,y=metric_value)) + 
+    p = ggplot(few_metric,aes(x=metrics_name,y=metric_value)) + 
       ggtitle("Recovery of Each Level") +
       geom_point()+
       xlab("Metrics Names") +
@@ -95,7 +96,7 @@ cross_validation_KNN = function(df,type_cv = 1,p_test=0.2,KN = 3){
       theme_bw() +
       theme(plot.title = element_text(hjust = 0.5)) 
     
-    return(m)
+    return(p)
     
     
   } else if(type_cv == 2){
@@ -170,9 +171,10 @@ cross_validation_KNN = function(df,type_cv = 1,p_test=0.2,KN = 3){
     number_levels = length(unique(cv10_metrics_df$Levels_name))
     
     cv10_metrics_df$Fold_Number = sort(rep(seq(0,9),number_levels))  
-    return(cv10_metrics_df)
     
-    ## d) Find Plots
+    
+
+        ## d) Find Plots
     long_m = gather(test_metrics0,metrics_name,metric_value,TPR_metric:MKd_metric)
     few_metric = long_m %>% 
       filter(metrics_name == "TPR_metric" |
@@ -187,7 +189,6 @@ cross_validation_KNN = function(df,type_cv = 1,p_test=0.2,KN = 3){
       facet_grid(~Levels_name) + 
       theme_bw() +
       theme(plot.title = element_text(hjust = 0.5)) 
-    
     
     
     return(cv10_metrics_df)
