@@ -1,35 +1,24 @@
 
 
+
+
+
+
+
+
 ##--------------------------------------
-## Name: is_number
-## Input: df_c --> vector
-## Output: T/F
-## Purpose: to check if a column is numeric
-## Improvements: 
-## a) Make sure this function is doing what it is supposed to do
-## compared to python code
-## b) This function subsumes is_number_value function from python
-##--------------------------------------  
-is_number = function(df_c){
-  result<- sum(unlist(lapply(df_c, is.numeric))) == length(df_c)
-  return(result)
-}
-
-
-
-
-# Function: Performs a Chi_Squared Test or Fisher Exact Test 
-##--------------------------------------
-## Name: chi_squared_test
+## Name: unique_vals
 ## Input: 
-## a) label_df --> Classification df
-## b) feature_df --> features df
-## Output: T/F
-## Purpose: to check if a column is numeric
+  ## a) df--> Data Frame
+  ## b) col --> Column number
+## Output: Unique levels or numbers 
+## Purpose: Find the unique values for a column in a dataset.
 ## Improvements: 
+  ## a) Less in house Functions
 ##--------------------------------------
-chi_squared_test = function(label_df, feature_df){
-  
- 
-  return(p_value)
+unique_vals = function(df,col){
+  vals = as.character(unique(df[,col]))
+  vals = gsub("\\s", "", vals)
+  return(vals)
 }
+unique_vals(df,4)
