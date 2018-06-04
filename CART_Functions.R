@@ -51,5 +51,6 @@ class_counts = function(df){
 ## Improvements: 
   ## a) Less in R functions
 ##--------------------------------------
-is_numeric = function()
-is.numeric(3)
+is_numeric = function(val){
+  return(is.numeric(val))
+}
