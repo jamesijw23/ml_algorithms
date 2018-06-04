@@ -54,3 +54,5 @@ class_counts = function(df){
 is_numeric = function(val){
   return(is.numeric(val))
 }
+
+
