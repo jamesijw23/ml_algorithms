@@ -10,7 +10,11 @@ public:
   void print();
 };
 
-
+// http://www.deanbodenham.com/learn/rcpp-classes-part-1.html
+// http://www.deanbodenham.com/learn/rcpp-classes-part-2.html
+// http://www.deanbodenham.com/learn/rcpp-classes-part-3.html
+// http://www.deanbodenham.com/learn/rcpp-classes-part-4.html
+// http://www.deanbodenham.com/learn/rcpp-classes-part-5.html
 //constructors
 Location::Location() :x(0), y(0) { }
 Location::Location(int xi, double yi) :x(xi), y(yi) { }
