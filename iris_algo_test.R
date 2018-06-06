@@ -1,5 +1,6 @@
 library(dplyr)
 library(modelr)
+library(class)
 ## testing R's: Logistic Regression, KNN, CART, Random Forest, XGBoost
 
 ## Only 2 outcomes data set
@@ -28,3 +29,9 @@ table(test_true,est_log)
 
 
 
+#################################
+## KNN
+#################################
+est_knn = knn(train_df[,-5],test_df[,-5],cl = train_df[,5])
+## Confusion matrix for KNN
+table(test_df[,5],est_knn)
