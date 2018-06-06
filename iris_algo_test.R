@@ -2,6 +2,7 @@ library(dplyr)   ## Data Manipulation
 library(modelr)  ## Partition Data set
 library(class)   ## KNN
 library(rpart)   ## CART
+library(randomForest)
 
 ## testing R's: Logistic Regression, KNN, CART, Random Forest, XGBoost
 
@@ -49,3 +50,14 @@ result_cart_test = apply(result_cart_test,1,which.max)
 est_cart = ifelse(result_cart_test == 1, "versicolor", "virginica")
 ## Confusion matrix for CART
 table(test_df[,5],est_cart)
+
+
+
+rf_model = randomForest(as.factor(Species) ~.,
+                    data=train_df, 
+                    importance=TRUE, 
+                    ntree=2000)
+est_rf = predict(rf_model,test_df[-5])
+table(test_df[,5],est_rf)
+
+
