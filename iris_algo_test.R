@@ -218,7 +218,7 @@ long_m = gather(m_all,metrics_name,metric_value,TPR_metric:MKd_metric)
 
 few_metric = long_m %>% 
   filter(metrics_name == "TPR_metric" |
-           metrics_name == "TNR_metric" |
+           metrics_name == "FPR_metric" |
            metrics_name == "ACC_metric" | 
            metrics_name == "PPV_metric")
 ggplot(few_metric,aes(x=metrics_name,y=metric_value,fill=method)) + 
@@ -227,5 +227,11 @@ ggplot(few_metric,aes(x=metrics_name,y=metric_value,fill=method)) +
   xlab("Metrics Names") +
   ylab("Measurements") +
   theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5)) 
+  theme(plot.title = element_text(hjust = 0.5))  +
+  scale_fill_manual("legend", values = c("Logistic_Regression" = "black",
+                                         "CART" = "red",
+                                      "K-Nearest Neighbors"="blue",
+                                       "Random_Forest" = "green",
+                                         "SVM" = "orange",
+                                      "XGBoost" = "purple"))
 
