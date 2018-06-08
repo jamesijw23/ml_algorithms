@@ -1,21 +1,13 @@
-library(dplyr)   ## Data Manipulation
-library(modelr)  ## Partition Data set
-library(class)   ## KNN
-library(rpart)   ## CART
+library(dplyr)        ## Data Manipulation
+library(modelr)       ## Partition Data set
+library(class)        ## KNN
+library(rpart)        ## CART
 library(randomForest) ## Random Forest
-library(xgboost)
-library(e1071)
+library(xgboost)      ## XGBoost
+library(e1071)        ## SVM
+library(tidyr)        ## Organize Data
+library(ggplot2)      ## View Data
 
-## testing R's: Logistic Regression, KNN, CART, Random Forest, XGBoost
-
-## Only 2 outcomes data set
-iris_mod = iris %>%
-  filter(Species == "versicolor" | Species == "virginica")
-iris_mod$Species = droplevels(iris_mod$Species)
-
-
-y = as.character(iris_mod[,5])
-x = iris_mod[,-5]
 
 metrics_function = function(matrixM){
   ##---------------------------------------
@@ -91,12 +83,6 @@ metrics_function = function(matrixM){
                         "BMi_metric", "MKd_metric")
   return(metrics)
 }
-
-
-
-
-
-
 binary_ml = function(x,y,p){ 
  
   
@@ -216,5 +202,31 @@ binary_ml = function(x,y,p){
   m_all = rbind(m_log,m_cart,m_knn,m_rf,m_svm,m_xgb)
   return(m_all)
 }
+## testing R's: Logistic Regression, KNN, CART, Random Forest, XGBoost
 
-binary_ml(x,y,0.2)
+## Only 2 outcomes data set
+iris_mod = iris %>%
+  filter(Species == "versicolor" | Species == "virginica")
+iris_mod$Species = droplevels(iris_mod$Species)
+
+
+y = as.character(iris_mod[,5])
+x = iris_mod[,-5]
+
+m_all = binary_ml(x,y,0.2)
+long_m = gather(m_all,metrics_name,metric_value,TPR_metric:MKd_metric)
+
+few_metric = long_m %>% 
+  filter(metrics_name == "TPR_metric" |
+           metrics_name == "TNR_metric" |
+           metrics_name == "ACC_metric" | 
+           metrics_name == "PPV_metric")
+ggplot(few_metric,aes(x=metrics_name,y=metric_value,fill=method)) + 
+  ggtitle("Recovery of Each Level") +
+  geom_point()+
+  xlab("Metrics Names") +
+  ylab("Measurements") +
+  facet_grid(~Levels_name) + 
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5)) 
+
