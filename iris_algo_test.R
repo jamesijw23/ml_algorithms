@@ -222,11 +222,10 @@ few_metric = long_m %>%
            metrics_name == "ACC_metric" | 
            metrics_name == "PPV_metric")
 ggplot(few_metric,aes(x=metrics_name,y=metric_value,fill=method)) + 
-  ggtitle("Recovery of Each Level") +
-  geom_point()+
+  geom_bar(stat = "identity", position=position_dodge()) +
+  ggtitle("Recovery Based on Each Models") +
   xlab("Metrics Names") +
   ylab("Measurements") +
-  facet_grid(~Levels_name) + 
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) 
 
