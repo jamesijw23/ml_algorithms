@@ -58,17 +58,28 @@ y_test = test_df %>% select(dis_bwt)
 y_test = as.numeric(factor(y_test$dis_bwt))-1
 
 
-x_test
 
 
-## Work
-# "low":1-Yes,0     
-# "firstep":1-Yes,0 
-# "gender":1-F,0       
-# "race":asian-1    black-2 hispanic-3    other-4    white-5     
-# "smoker":1-Y,0
-# "drinker"1-Y,0
-# "educlv":High-2, Low-0, Middle-1   
+
+## Change Datae into numeric for xgboost
+## "low":1-Yes, 0-No    
+## "firstep":1-Yes,0-No 
+## "gender":1-F,0-M       
+## "race":asian-1    black-2 hispanic-3    other-4    white-5     
+## "smoker":1-Y,0-No
+## "drinker"1-Y,0-No
+## "educlv":High-2, Low-0, Middle-1 
+
+yesno_tran_01 = function(x){
+  ifelse(x =="No" | x=="N",0,1)
+}
+gen_tran_01 = function(x){
+  ifelse(x =="M",0,1)
+}
+
+x_test_xgb = x_test %>%
+  mutate(low_n = yesno_tran_01(low))
+
 
 #################################
 ## ML1: CART
