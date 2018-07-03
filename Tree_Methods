@@ -3,6 +3,9 @@ library(modelr)         ## Partition Data set
 library(xgboost)        ## XGBoost 
 library(randomForest)   ## Random Forest
 library(dplyr)          ## Data Manipulation
+library(rattle)         ## to make pretty tree
+library(rpart.plot)     ## to make pretty tree
+library(RColorBrewer)   ## to make pretty tree
 
 
 #################################
@@ -84,7 +87,7 @@ main_df = read.csv("king.csv")
 df = main_df %>% 
   select(-id) %>%
   mutate(dis_bwt = case_when( bwt >summary(bwt)[3] ~'Above_Median',
-                              TRUE ~ 'Below')) %>%
+                              TRUE ~ 'Below_Median')) %>%
   select(-bwt)
 
 
@@ -199,7 +202,7 @@ m_cart = data.frame(method = "CART",
 
 
 ## Visualize Tree
-
+fancyRpartPlot(cart_model)
 
 
 
@@ -241,6 +244,9 @@ m_xgb = data.frame(method = "XGBoost",
 
 
 rbind(m_cart,m_rf,m_xgb)
+
+
+
 
 
 
