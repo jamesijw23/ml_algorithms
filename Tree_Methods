@@ -6,6 +6,59 @@ library(dplyr)          ## Data Manipulation
 
 
 #################################
+##  Metrics Functions
+#################################
+metrics_function = function(matrixM){
+  ##---------------------------------------
+  ## Condition positive (P) - The number of real positive cases in the data
+  ##---------------------------------------
+  P_cond = sum(matrixM[1,])
+  ##---------------------------------------
+  ## Condition negative (N) - The number of real negative cases in the data
+  ##---------------------------------------
+  N_cond = sum(matrixM[2,])
+  ##---------------------------------------
+  ## True positive (TP) - Eqv. with hit
+  ##---------------------------------------
+  TP_cond = matrixM[1,1]
+  ##---------------------------------------
+  ## True negative (TN) - Eqv. with correct rejection
+  ##---------------------------------------
+  TN_cond = matrixM[2,2]
+  ##---------------------------------------
+  ## False positive (FP) - Eqv. with false alarm, Type I error
+  ##---------------------------------------
+  FP_cond = matrixM[1,2]
+  ##---------------------------------------
+  ## False negative (FN) - Eqv. with miss, Type II error
+  ##---------------------------------------
+  FN_cond = matrixM[2,1]
+  
+  
+  
+  ## Metrics
+  ## 1) Sensitivity/Recall/True Positive Rate
+  TPR_metric = TP_cond / (TP_cond + FN_cond)
+  ## 3) Precision/ Positive Predictive Value
+  PPV_metric = TP_cond / (TP_cond + FP_cond)
+  
+  ## 9) Accuracy
+  ACC_metric = (TP_cond + TN_cond)/ (P_cond + N_cond)
+  ## 10) F1 Score
+  F1s_metric = 2 *((PPV_metric*TPR_metric) / (PPV_metric + TPR_metric))
+  
+  
+  
+  metrics = cbind(TPR_metric, PPV_metric,
+                  ACC_metric, F1s_metric)
+  
+  colnames(metrics) = c("Recall_metric","Precision_metric",
+                        "Accuracy_metric", "F1_Score_metric")
+  return(metrics)
+}
+
+
+#################################
 ## Reading in Data
 #################################
 setwd("C:/Users/james/Google Drive/Data_Science/Data/Random DataSets")
@@ -78,7 +131,51 @@ gen_tran_01 = function(x){
 }
 
 x_test_xgb = x_test %>%
-  mutate(low_n = yesno_tran_01(low))
+  mutate(low_n = yesno_tran_01(low)) %>%
+  select(-low) %>%
+  mutate(firstep_n = yesno_tran_01(firstep)) %>%
+  select(-firstep) %>%
+  mutate(smoker_n = yesno_tran_01(smoker)) %>%
+  select(-smoker) %>%
+  mutate(drinker_n = yesno_tran_01(drinker)) %>%
+  select(-drinker) %>% 
+  mutate(gender_n = yesno_tran_01(gender)) %>%
+  select(-gender) %>%
+  mutate(race_n = case_when(race == "asian" ~0,
+                            race == "black" ~1,
+                            race == "hispanic" ~2,
+                            race == "other" ~3,
+                            TRUE ~ 4)) %>%
+  select(-race) %>%
+  mutate(educlv_n = case_when(educlv == "Low" ~0,
+                              educlv == "Medium" ~1,
+                            TRUE ~ 2)) %>%
+  select(-educlv)%>%
+  as.matrix()
+  
+
+x_train_xgb = x_train %>%
+  mutate(low_n = yesno_tran_01(low)) %>%
+  select(-low) %>%
+  mutate(firstep_n = yesno_tran_01(firstep)) %>%
+  select(-firstep) %>%
+  mutate(smoker_n = yesno_tran_01(smoker)) %>%
+  select(-smoker) %>%
+  mutate(drinker_n = yesno_tran_01(drinker)) %>%
+  select(-drinker) %>% 
+  mutate(gender_n = yesno_tran_01(gender)) %>%
+  select(-gender) %>%
+  mutate(race_n = case_when(race == "asian" ~0,
+                            race == "black" ~1,
+                            race == "hispanic" ~2,
+                            race == "other" ~3,
+                            TRUE ~ 4)) %>%
+  select(-race) %>%
+  mutate(educlv_n = case_when(educlv == "Low" ~0,
+                              educlv == "Medium" ~1,
+                              TRUE ~ 2)) %>%
+  select(-educlv) %>%
+  as.matrix()
 
 
 #################################
@@ -130,9 +227,11 @@ m_rf = data.frame(method = "Random_Forest",
 ## ML3: XGBoost
 #################################
 ## Run Model
-xgb_model <- xgboost(data = x_train, label = y_train, nrounds = 10)
+xgb_model <- xgboost(data = x_train_xgb,
+                     label = y_train,
+                     nrounds = 10)
 ## Predict for logistic regression
-est_xgb = ifelse(predict(xgb_model,x_test)>0.5,1,0)
+est_xgb = ifelse(predict(xgb_model,x_test_xgb)>0.5,1,0)
 ## Confusion matrix for logistic regression
 m_xgb = table(y_test,est_xgb)
 m_xgb = data.frame(method = "XGBoost",
@@ -141,66 +240,8 @@ m_xgb = data.frame(method = "XGBoost",
 
 
 
+rbind(m_cart,m_rf,m_xgb)
 
-
-
-
-
-
-
-
-
-#################################
-##  Metrics Functions
-#################################
-metrics_function = function(matrixM){
-  ##---------------------------------------
-  ## Condition positive (P) - The number of real positive cases in the data
-  ##---------------------------------------
-  P_cond = sum(matrixM[1,])
-  ##---------------------------------------
-  ## Condition negative (N) - The number of real negative cases in the data
-  ##---------------------------------------
-  N_cond = sum(matrixM[2,])
-  ##---------------------------------------
-  ## True positive (TP) - Eqv. with hit
-  ##---------------------------------------
-  TP_cond = matrixM[1,1]
-  ##---------------------------------------
-  ## True negative (TN) - Eqv. with correct rejection
-  ##---------------------------------------
-  TN_cond = matrixM[2,2]
-  ##---------------------------------------
-  ## False positive (FP) - Eqv. with false alarm, Type I error
-  ##---------------------------------------
-  FP_cond = matrixM[1,2]
-  ##---------------------------------------
-  ## False negative (FN) - Eqv. with miss, Type II error
-  ##---------------------------------------
-  FN_cond = matrixM[2,1]
-  
-  
-  
-  ## Metrics
-  ## 1) Sensitivity/Recall/True Positive Rate
-  TPR_metric = TP_cond / (TP_cond + FN_cond)
-  ## 3) Precision/ Positive Predictive Value
-  PPV_metric = TP_cond / (TP_cond + FP_cond)
-
-  ## 9) Accuracy
-  ACC_metric = (TP_cond + TN_cond)/ (P_cond + N_cond)
-  ## 10) F1 Score
-  F1s_metric = 2 *((PPV_metric*TPR_metric) / (PPV_metric + TPR_metric))
-
-
-  
-  metrics = cbind(TPR_metric, PPV_metric,
-                  ACC_metric, F1s_metric)
-  
-  colnames(metrics) = c("Recall_metric","Precision_metric",
-                        "Accuracy_metric", "F1_Score_metric")
-  return(metrics)
-}
 
 
 
